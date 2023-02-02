@@ -30,9 +30,11 @@ public class Controller implements Initializable {
     private Slider volumeSlider;
     @FXML
     private ProgressBar songProgressBar;
+
     private File directory;
     private File[] files;
     private ArrayList<File> songs;
+    private boolean paused = false;
 
     private int songNumber;
     private int[] speeds = {25,50,75,100,125,150,175,200};
@@ -71,7 +73,10 @@ public class Controller implements Initializable {
             }
         });
 
+        timer = new Timer();
+
         mediaPlayer.setOnEndOfMedia(this::nextMedia);
+
 
         songProgressBar.setStyle("-fx-accent: #16D3A1;");
 
@@ -79,14 +84,21 @@ public class Controller implements Initializable {
     }
 
     public void playMedia() {
-        beginTimer();
+        toggleMedia();
         changeSpeed(null);
         mediaPlayer.setVolume(volumeSlider.getValue() * 0.01);
-        mediaPlayer.play();
     }
-    public void pauseMedia() {
-        cancelTimer();
-        mediaPlayer.pause();
+
+    public void toggleMedia() {
+        if (paused) {
+            cancelTimer();
+            mediaPlayer.pause();
+            paused = true;
+        } else {
+            beginTimer();
+            mediaPlayer.play();
+            paused = false;
+        }
     }
     public void resetMedia() {
         songProgressBar.setProgress(0);
@@ -124,7 +136,6 @@ public class Controller implements Initializable {
         if(speedBox.getValue() == null) {
             mediaPlayer.setRate(1);
         } else {
-            //mediaPlayer.setRate(Integer.parseInt(speedBox.getValue()) * 0.01);
             mediaPlayer.setRate(Integer.parseInt(speedBox.getValue().substring(0, speedBox.getValue().length() - 1)) * 0.01);
         }
     }

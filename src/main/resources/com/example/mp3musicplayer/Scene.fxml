@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="161.0" prefWidth="643.0" style="-fx-background-color: #222222;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mp3musicplayer.Controller">
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="177.0" prefWidth="642.0" style="-fx-background-color: #222222;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mp3musicplayer.Controller">
    <children>
       <Label fx:id="songLabel" alignment="CENTER" layoutX="-3.0" prefHeight="55.0" prefWidth="643.0" text="MP3 Player" textFill="#16d3a1">
          <font>
@@ -17,32 +16,27 @@
          </font>
       </Label>
       <ProgressBar fx:id="songProgressBar" layoutY="63.0" prefHeight="31.0" prefWidth="643.0" progress="0.0" />
-      <Button fx:id="playButton" layoutX="14.0" layoutY="109.0" mnemonicParsing="false" onAction="#playMedia" text="Play">
+      <Button fx:id="playButton" layoutX="291.0" layoutY="103.0" mnemonicParsing="false" onAction="#toggleMedia" prefHeight="55.0" prefWidth="56.0" styleClass="round-button">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="pauseButton" layoutX="82.0" layoutY="109.0" mnemonicParsing="false" onAction="#pauseMedia" text="Pause">
+      <Button fx:id="resetButton" layoutX="22.0" layoutY="112.0" mnemonicParsing="false" onAction="#resetMedia" style="-fx-background-color: #16D3A1;" text="Reset">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="resetButton" layoutX="163.0" layoutY="109.0" mnemonicParsing="false" onAction="#resetMedia" text="Reset">
+      <Button fx:id="previousButton" layoutX="226.0" layoutY="113.0" mnemonicParsing="false" onAction="#previousMedia" styleClass="rewind">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="previousButton" layoutX="239.0" layoutY="109.0" mnemonicParsing="false" onAction="#previousMedia" text="Previous">
+      <Button fx:id="nextButton" layoutX="363.0" layoutY="113.0" mnemonicParsing="false" onAction="#nextMedia" styleClass="forward">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="nextButton" layoutX="340.0" layoutY="109.0" mnemonicParsing="false" onAction="#nextMedia" text="Next">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <ComboBox fx:id="speedBox" layoutX="412.0" layoutY="110.0" onAction="#changeSpeed" prefHeight="39.0" prefWidth="78.0" promptText="Speed" />
-      <Slider fx:id="volumeSlider" layoutX="508.0" layoutY="123.0" prefHeight="14.0" prefWidth="125.0" value="50.0" />
+      <ComboBox fx:id="speedBox" layoutX="112.0" layoutY="112.0" onAction="#changeSpeed" prefHeight="39.0" prefWidth="78.0" promptText="Speed" style="-fx-background-color: #16D3A1;" />
+      <Slider fx:id="volumeSlider" layoutX="451.0" layoutY="123.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="14.0" prefWidth="173.0" showTickMarks="true" value="50.0" />
    </children>
 </AnchorPane>

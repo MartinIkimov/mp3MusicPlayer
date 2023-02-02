@@ -1,0 +1,20 @@
+.round-button {
+    -fx-background-radius: 360px; /* 50% of the button's width */
+    -fx-background-color: #16d3a1;
+    -fx-graphic: url("play-icon.png");
+}
+
+.rewind {
+    -fx-graphic: url("rewind.png");
+    -fx-background-color: #16d3a1;
+}
+.forward {
+    -fx-graphic: url("forward.png");
+    -fx-background-color: #16d3a1;
+}
+
+#volumeSlider .thumb{
+    -fx-background-color: #16D3A1;
+    -fx-pref-height: 25px;
+    -fx-pref-width: 10px;
+}
