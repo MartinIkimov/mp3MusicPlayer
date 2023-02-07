@@ -3,13 +3,17 @@ package com.example.mp3musicplayer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -30,11 +34,13 @@ public class Controller implements Initializable {
     private Slider volumeSlider;
     @FXML
     private ProgressBar songProgressBar;
+    @FXML
+    private MenuItem menuItemAddSongs;
 
     private File directory;
     private File[] files;
     private ArrayList<File> songs;
-    private boolean paused = false;
+    private boolean paused = true;
 
     private int songNumber;
     private int[] speeds = {25,50,75,100,125,150,175,200};
@@ -80,6 +86,19 @@ public class Controller implements Initializable {
 
         songProgressBar.setStyle("-fx-accent: #16D3A1;");
 
+        menuItemAddSongs.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Audio Files", "*.mp3"));
+                List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
+                if (selectedFiles != null)
+                {
+                    songs.addAll(selectedFiles);
+                }
+            }
+        });
+
         playMedia();
     }
 
@@ -90,14 +109,16 @@ public class Controller implements Initializable {
     }
 
     public void toggleMedia() {
-        if (paused) {
+        if (!paused) {
             cancelTimer();
             mediaPlayer.pause();
             paused = true;
+            playButton.setGraphic(new ImageView(new Image(Objects.requireNonNull(Mp3Player.class.getResourceAsStream("play-icon.png")))));
         } else {
             beginTimer();
             mediaPlayer.play();
             paused = false;
+            playButton.setGraphic(new ImageView(new Image(Objects.requireNonNull(Mp3Player.class.getResourceAsStream("pause.png")))));
         }
     }
     public void resetMedia() {
@@ -129,6 +150,7 @@ public class Controller implements Initializable {
         media = new Media(songs.get(songNumber).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
         songLabel.setText(songs.get(songNumber).getName());
+        paused = !paused;
         playMedia();
     }
 

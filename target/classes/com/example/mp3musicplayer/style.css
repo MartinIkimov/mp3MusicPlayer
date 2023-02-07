@@ -1,7 +1,6 @@
 .round-button {
     -fx-background-radius: 360px; /* 50% of the button's width */
     -fx-background-color: #16d3a1;
-    -fx-graphic: url("play-icon.png");
 }
 
 .rewind {
@@ -18,3 +17,10 @@
     -fx-pref-height: 25px;
     -fx-pref-width: 10px;
 }
+
+#myMenu .label {
+    -fx-text-fill: #16D3A1;
+    -fx-font-size: 16px;
+}
+
+
