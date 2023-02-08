@@ -55,20 +55,17 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         songs = new ArrayList<>();
-        directory = new File("src/main/resources/com/example/mp3musicplayer/music");
-        files = directory.listFiles();
+//        directory = new File("src/main/resources/com/example/mp3musicplayer/music");
+//        files = directory.listFiles();
+//
+//        if(files != null) {
+//            songs.addAll(Arrays.asList(files));
+//        }
 
-        if(files != null) {
-            songs.addAll(Arrays.asList(files));
-        }
 
-        media = new Media(songs.get(songNumber).toURI().toString());
-        mediaPlayer = new MediaPlayer(media);
-
-        songLabel.setText(songs.get(songNumber).getName());
 
         for (int i = 0; i < speeds.length; i++) {
-            speedBox.getItems().add(Integer.toString(speeds[i]) + "%");
+            speedBox.getItems().add(speeds[i] + "%");
         }
         speedBox.setOnAction(this::changeSpeed);
 
@@ -81,25 +78,41 @@ public class Controller implements Initializable {
 
         timer = new Timer();
 
-        mediaPlayer.setOnEndOfMedia(this::nextMedia);
-
-
         songProgressBar.setStyle("-fx-accent: #16D3A1;");
+        disableButtons(true);
 
-        menuItemAddSongs.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Audio Files", "*.mp3"));
-                List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
-                if (selectedFiles != null)
-                {
-                    songs.addAll(selectedFiles);
+        playButton.setGraphic(new ImageView(new Image(Objects.requireNonNull(Mp3Player.class.getResourceAsStream("play-icon.png")))));
+
+        menuItemAddSongs.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Audio Files", "*.mp3"));
+            List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
+            if (selectedFiles != null) {
+                songs.addAll(selectedFiles);
+                if(media == null) {
+                    media = new Media(songs.get(songNumber).toURI().toString());
+                    mediaPlayer = new MediaPlayer(media);
+                    mediaPlayer.setOnEndOfMedia(this::nextMedia);
+
+
+                    songLabel.setText(songs.get(songNumber).getName());
+
+                    disableButtons(false);
+                }
+                if(paused) {
+                    playMedia();
                 }
             }
         });
+    }
 
-        playMedia();
+    private void disableButtons(boolean value) {
+        playButton.setDisable(value);
+        nextButton.setDisable(value);
+        previousButton.setDisable(value);
+        volumeSlider.setDisable(value);
+        resetButton.setDisable(value);
+        speedBox.setDisable(value);
     }
 
     public void playMedia() {
